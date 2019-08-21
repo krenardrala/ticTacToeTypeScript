@@ -21,11 +21,10 @@ export class StartMenu {
         this.circleBtn = document.querySelector(".circle-btn");
         this.crossBtn = document.querySelector(".cross-btn");
         this.next = true;
-        this.teamClicked = 0;
         this.show()
     }
 
-    onGameStart(teamClicked : Team) : void {
+    onGameStart() : void {
         this.circleBtn.removeEventListener("click", () => {
             this.buttonClicked(Team.Circle)
         });
@@ -33,42 +32,42 @@ export class StartMenu {
             this.buttonClicked(Team.Cross)
         });
         this.next = true;
-        this.playerMove(teamClicked);
-    }
-
-    private playerMove(teamClicked : Team) : void {
-        const localTeamClicked : Team = teamClicked;
-        const playable = document.querySelectorAll(".playable");
-        const chooseClass : string = teamClicked == 0 ? 'class-x' : 'class-o';
-        const oppositePlayer : string = teamClicked == 0 ? 'class-o' : 'class-x';
 
         for(let i = 0; i < this.plays.length; i++) {
-            this.plays[i].addEventListener('click', () => {
-
-                this.plays[i].classList.add(chooseClass);
-                this.plays[i].classList.remove('playable');
-                this.checker(localTeamClicked);
-                if(playable.length && this.next) {
-                    this.compMove(oppositePlayer, localTeamClicked);
-                }
-            });
+            this.plays[i].addEventListener('click', this.playerMove)
         }
     }
 
-    private compMove(oppositePlayer : string, teamClicked : Team) : void {
+    playerMove = (event: Event) =>  {
+        const { target } = event;
+        const playable = document.querySelectorAll(".playable");
+        const playerSign : string = this.teamClicked == 0 ? 'x' : 'o';
+        const compSign : string = this.teamClicked == 0 ? 'o' : 'x';
+
+        (<HTMLInputElement>target).innerHTML = playerSign;
+        (<HTMLInputElement>target).classList.add('class-' + playerSign);
+        (<HTMLInputElement>target).classList.remove('playable');
+        this.checker();
+        if(playable.length && this.next) {
+            this.compMove(compSign);
+        }
+    }
+
+    private compMove(compSign : string) : void {
         let randIndex : number =  Math.floor(Math.random() * this.plays.length);
-        while (this.plays[randIndex].classList.contains('class-x')  || this.plays[randIndex].classList.contains('class-o')) {
+        while (this.plays[randIndex].innerHTML === 'x'  || this.plays[randIndex].innerHTML === 'o') {
             randIndex = Math.floor(Math.random() * this.plays.length);
         }
-        this.plays[randIndex].classList.add(oppositePlayer);
+        this.plays[randIndex].innerHTML = compSign;
+        this.plays[randIndex].classList.add('class-' + compSign);
         this.plays[randIndex].classList.remove('playable');
-        this.checker(teamClicked);
+        this.checker();
     }
 
     // end game checker (win, lose, tie)
-    private checker(teamClicked : Team): void {
-        const playerSign = teamClicked == 0 ? 'class-x' : 'class-o';
-        const compSign = teamClicked == 0 ? 'class-o' : 'class-x';
+    private checker(): void {
+        const playerSign = this.teamClicked == 0 ? 'class-x' : 'class-o';
+        const compSign = this.teamClicked == 0 ? 'class-o' : 'class-x';
         const playable = document.querySelectorAll(".playable");
         // win
         if (((this.plays[0].classList.contains(playerSign) && this.plays[1].classList.contains(playerSign) && this.plays[2].classList.contains(playerSign))
@@ -111,6 +110,7 @@ export class StartMenu {
             this.plays[i].classList.add("playable");
             this.plays[i].classList.remove("class-x");
             this.plays[i].classList.remove("class-o");
+            this.plays[i].innerHTML = "";
             //this.plays[i].removeEventListener("click", () => {});
         }
         this.board.classList.add('hidden');
@@ -119,8 +119,9 @@ export class StartMenu {
     }
 
     private buttonClicked(teamClicked : Team){
+        this.teamClicked = teamClicked;
         this.board.classList.remove('hidden');
-        this.onGameStart(teamClicked);
+        this.onGameStart();
         this.close();
     }
 
