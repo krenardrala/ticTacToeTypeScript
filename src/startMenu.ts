@@ -49,7 +49,9 @@ export class StartMenu {
         (<HTMLInputElement>target).classList.remove('playable');
         this.checker();
         if(playable.length && this.next) {
-            this.compMove(compSign);
+            setTimeout(() => {
+                this.compMove(compSign)
+            }, 500);
         }
     }
 
@@ -69,6 +71,7 @@ export class StartMenu {
         const playerSign = this.teamClicked == 0 ? 'class-x' : 'class-o';
         const compSign = this.teamClicked == 0 ? 'class-o' : 'class-x';
         const playable = document.querySelectorAll(".playable");
+        
         // win
         if (((this.plays[0].classList.contains(playerSign) && this.plays[1].classList.contains(playerSign) && this.plays[2].classList.contains(playerSign))
                 ||  (this.plays[3].classList.contains(playerSign) && this.plays[4].classList.contains(playerSign) && this.plays[5].classList.contains(playerSign))
@@ -82,7 +85,7 @@ export class StartMenu {
             this.next = false;
             this.reset('You win!');
         }
-
+        //loose
         else  if (((this.plays[0].classList.contains(compSign) && this.plays[1].classList.contains(compSign) && this.plays[2].classList.contains(compSign))
             ||  (this.plays[3].classList.contains(compSign) && this.plays[4].classList.contains(compSign) && this.plays[5].classList.contains(compSign))
             ||  (this.plays[6].classList.contains(compSign) && this.plays[7].classList.contains(compSign) && this.plays[8].classList.contains(compSign))
@@ -103,19 +106,18 @@ export class StartMenu {
     }
 
     private reset(msg : string) : void {
-        //this.hidden = false;
-        alert(msg);
 
-        for (let i=0; i < this.plays.length; i++) {
-            this.plays[i].classList.add("playable");
-            this.plays[i].classList.remove("class-x");
-            this.plays[i].classList.remove("class-o");
-            this.plays[i].innerHTML = "";
-            //this.plays[i].removeEventListener("click", () => {});
-        }
-        this.board.classList.add('hidden');
-        this.parentElem.appendChild(this.menu);
-        //this.show();
+        setTimeout(() => {
+            alert(msg);
+            for (let i=0; i < this.plays.length; i++) {
+                this.plays[i].classList.add("playable");
+                this.plays[i].classList.remove("class-x");
+                this.plays[i].classList.remove("class-o");
+                this.plays[i].innerHTML = "";
+            }
+            this.board.classList.add('hidden');
+            this.parentElem.appendChild(this.menu);
+        }, 500);
     }
 
     private buttonClicked(teamClicked : Team){
@@ -126,24 +128,17 @@ export class StartMenu {
     }
 
     close() : void {
-        /*if(this.hidden)
-            return*/
-
         this.parentElem.removeChild(this.menu);
         this.hidden = true
     }
 
     show() : void {
-        /*if(!this.hidden)
-            return*/
-
         this.circleBtn.addEventListener("click", () => {
             this.buttonClicked(Team.Circle)
         });
         this.crossBtn.addEventListener("click", () => {
             this.buttonClicked(Team.Cross)
         });
-
         this.hidden = false
     }
 }
