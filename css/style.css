@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    text-align: center;
+}
+
+html {
+    margin: 0;
+}
+
+body {
+    font-family: "Meera Inimai", sans-serif;
+    background: url("../img/green.jpg");
+    margin: 0;
+}
+
+h1 {
+    font-size: 3.5rem;
+}
+
+button {
+    cursor: pointer;
+    font: inherit;
+    background: transparent;
+    border: solid 2px black;
+    border-radius: 7px;
+    padding: 10px 15px;
+    max-width: 100px;
+}
+button:focus {
+    outline: 0;
+}
+button:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 30px;
+}
+
+#app {
+    max-width: 400px;
+    margin: auto;
+}
+
+.ui-block {
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 25px;
+}
+
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: appearOpacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 1 forwards;
+}
+.popup p {
+    margin: 10px;
+    font-size: 18px;
+}
+.menu {
+    width: 320px;
+    padding: 10px;
+}
+.menu button {
+    padding: 0 8px;
+    width: 80px;
+    height: 80px;
+}
+.menu svg {
+    width: 80%;
+    height: 80%;
+}
+
+.team-selection {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 300px;
+    margin: 25px 0 8px 0;
+}
+
+/* main square */
+.board {
+    width: 262px;
+    height: 262px;
+    padding: 5px;
+    margin: auto;
+    background: whitesmoke;
+    border-radius: 2px;
+}
+@media only screen and (min-width: 768px) {
+    .board {
+        width: 332px;
+        height: 332px;
+        padding: 10px;
+    }
+}
+
+/* inside orange squares */
+.board div {
+    width: 80px;
+    height: 80px;
+    margin: 2px;
+    background: #f1c40f;
+    background-image: linear-gradient(to top left, #d35400, #f1c40f);
+    background-size: 200%;
+    float: left;
+    border-radius: 2px;
+    color: whitesmoke;
+    font-size: 60px;
+    line-height: 80px;
+    font-family: monospace;
+    text-transform: uppercase;
+}
+@media only screen and (min-width: 768px) {
+    .board div {
+        width: 100px;
+        height: 100px;
+        margin: 2px;
+        line-height: 100px;
+    }
+}
+.board .playable:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.class-x {
+    background: red !important;
+}
+.class-o {
+    background: green !important;
+}
