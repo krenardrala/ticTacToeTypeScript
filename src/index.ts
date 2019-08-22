@@ -1,11 +1,8 @@
-import{ Team } from "./consts"
 import{ StartMenu } from "./startMenu"
 
 let gameElem = document.getElementById("app") as HTMLElement;
 
+//Initialize Start Menu
 let startMenu = new StartMenu(gameElem);
 
-/*startMenu.onGameStart((choice: Team) => {
-    //game.startGame(choice)
-});*/
 
